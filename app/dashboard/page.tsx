@@ -1,6 +1,4 @@
-import Image from "next/image"
 import { auth, signOut } from '@/auth.config'
-import { userInfo } from "os"
 
 export default async function Home() {
   const session = await auth()

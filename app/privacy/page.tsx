@@ -1,5 +1,3 @@
-import LoginForm from '@/app/ui/login-form';
- 
 export default function PrivacyStatementPage() {
   return (
     <main className="flex items-center justify-center md:h-screen">

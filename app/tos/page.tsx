@@ -7,7 +7,7 @@ export default function TermsOfServicePage() {
             logo
           </div>
         </div>
-        <p>Terms of service: don't be bad</p>
+        <p>Terms of service: `&apos;` be bad</p>
       </div>
     </main>
   );
