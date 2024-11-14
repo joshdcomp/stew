@@ -1,4 +1,4 @@
-import { auth } from './auth.config';
+import { auth } from '@/auth.config';
 
 export default auth;
  
