@@ -1,11 +1,15 @@
-import NextAuth from 'next-auth';
-import type { NextAuthConfig } from 'next-auth';
-import Google from 'next-auth/providers/google';
+import NextAuth from 'next-auth'
+import type { NextAuthConfig } from 'next-auth'
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import { prisma } from "@/prisma"
+
+import Google from 'next-auth/providers/google'
  
 export const authConfig = {
   pages: {
     signIn: '/login',
   },
+  adapter: PrismaAdapter(prisma),
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
@@ -18,9 +22,19 @@ export const authConfig = {
       }
       return true;
     },
+    jwt({ token, user }) {
+      if (user) {
+        token.id = user.id
+      }
+      return token
+    },
+    session({ session, token }) {
+      session.user.id = token.id
+      return session
+    },
   },
   providers: [
-    Google
+    Google,
   ],
 } satisfies NextAuthConfig;
 
