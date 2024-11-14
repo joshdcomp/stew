@@ -30,8 +30,9 @@ export const authConfig = {
       return token
     },
     session({ session, token }:{session: Session, token: JWT}) {
-      // @ts-ignore
-      session.user.id = token.id
+      if (token) {
+        session.user.id = token.id || undefined
+      }
       return session
     },
   },
