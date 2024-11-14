@@ -1,9 +1,3 @@
-// perf improvement called for by auth js 
-// https://authjs.dev/getting-started/adapters/prisma#configuration
-// TODO reconcile this perf optimization with the neon setup below
-// import { PrismaClient } from "@prisma/client"
- 
-
 import { Pool, neonConfig } from '@neondatabase/serverless'
 import { PrismaNeon } from '@prisma/adapter-neon'
 import { PrismaClient } from '@prisma/client'
