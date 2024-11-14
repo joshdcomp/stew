@@ -1,10 +1,11 @@
-import NextAuth from 'next-auth'
-import type { NextAuthConfig } from 'next-auth'
+import NextAuth, { Session, NextAuthConfig } from 'next-auth'
+import { JWT } from 'next-auth/jwt'
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "@/prisma"
 
 import Google from 'next-auth/providers/google'
- 
+
+
 export const authConfig = {
   pages: {
     signIn: '/login',
@@ -28,7 +29,7 @@ export const authConfig = {
       }
       return token
     },
-    session({ session, token }) {
+    session({ session, token }:{session: Session, token: JWT}) {
       session.user.id = token.id
       return session
     },
