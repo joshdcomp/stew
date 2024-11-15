@@ -1,7 +1,11 @@
 import { auth, signOut } from '@/auth.config'
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
   const session = await auth()
+  if (!session?.user) {
+    redirect('/login')
+  }
   const userInfo = JSON.stringify(session || {}, null, 2)
 
   return (
@@ -15,7 +19,7 @@ export default async function Home() {
             await signOut()
           }}
         >
-          <button type="submit">Sign out with Google</button>
+          <button type="submit">Switch user</button>
         </form>
       </main>
     </div>
