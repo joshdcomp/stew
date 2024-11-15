@@ -5,20 +5,14 @@ import { prisma } from "@/prisma"
 
 import Google from 'next-auth/providers/google'
 
-export const baseAuthConfig = {
+export const authConfig = {
+  pages: {
+    signIn: '/login',
+  },
   adapter: PrismaAdapter(prisma),
   providers: [
     Google,
   ],
-} satisfies NextAuthConfig
-
-export const authConfig = {
-  ...baseAuthConfig,
-  pages: {
-    signIn: '/login',
-  },
-  // have to use jwt's because prisma doesn't play nicely on edge fn's
-  // session: { strategy: "jwt" },
   callbacks: {
     jwt({ token, user }) {
       if (user) {
