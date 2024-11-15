@@ -91,12 +91,13 @@ model Authenticator {
 model Chore {
   id            Int         @id @default(autoincrement())
   type          ChoreType   @default(ONETIME)
-  createdBy     User        @relation("CreatedChores", fields: [createdByID], references: [id])
+  createdBy     User      @relation("CreatedChores", fields: [createdByID], references: [id])
   createdByID   String
   createdOn     DateTime    @default(now())
   completedBy   User?       @relation("CompletedChores", fields: [completedByID], references: [id])
   completedByID String?
   completedOn   DateTime?
+  expiresOn     DateTime?
   status        ChoreStatus @default(AVAILABLE)
   points        Int?
   title         String
