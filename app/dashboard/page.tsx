@@ -19,7 +19,7 @@ export default async function Home() {
             await signOut()
           }}
         >
-          <button type="submit">Sign out with Google</button>
+          <button type="submit">Switch user</button>
         </form>
       </main>
     </div>
