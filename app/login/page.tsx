@@ -5,7 +5,7 @@ import { headers } from 'next/headers'
 export default async function LoginPage() {
   const session = await auth()
   const headerList = await headers()
-  console.log('referrer', headerList.get('referrer'))
+  console.log('login', {session, referrer: headerList.get('referrer')})
   // if (!!session && headerList.get('referrer')?.)
   return (
     <main className="flex items-center justify-center md:h-screen">
