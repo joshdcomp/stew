@@ -1,8 +1,8 @@
 import { signIn, signOut } from '@/auth.config'
-import useAuth from '@/app/lib/use-auth'
+import authCheck from '@/app/lib/auth-fn'
 
 export default async function LoginForm() {
-  const session = await useAuth()
+  const session = await authCheck()
   // login page currently redirects to the dashboard if session exists, but just in case this is rendered in a modal
   if (session) {
     const userInfo = JSON.stringify(session || {}, null, 2)

@@ -1,8 +1,8 @@
 import Link from "next/link"
-import useAuth from "@/app/lib/use-auth"
+import authCheck from "@/app/lib/auth-fn"
 
 export default async function Home() {
-  const session = await useAuth()
+  const session = await authCheck()
   const userInfo = JSON.stringify(session || {}, null, 2)
   console.log('home', {session})
   return (

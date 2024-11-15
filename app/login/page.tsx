@@ -1,10 +1,9 @@
 import LoginForm from '@/app/ui/login-form'
-import useAuth from '@/app/lib/use-auth'
-import Link from 'next/link'
+import authCheck from '@/app/lib/auth-fn'
 import { redirect } from 'next/navigation'
  
 export default async function LoginPage() {
-  const session = await useAuth()
+  const session = await authCheck()
   if (!!session) {
     redirect('/dashboard')
   }

@@ -1,8 +1,8 @@
-import { auth, signOut } from '@/auth.config'
-import useAuth from "@/app/lib/use-auth"
+import { signOut } from '@/auth.config'
+import authCheck from "@/app/lib/auth-fn"
 
 export default async function Home() {
-  const session = await useAuth(true)
+  const session = await authCheck(true)
   const userInfo = JSON.stringify(session || {}, null, 2)
 
   return (

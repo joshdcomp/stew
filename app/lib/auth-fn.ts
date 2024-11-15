@@ -4,7 +4,7 @@ import { auth } from '@/auth.config'
 import { redirect } from 'next/navigation';
 
 
-async function useAuth(redirectIfUnauthed:boolean=false) {
+async function authCheck(redirectIfUnauthed:boolean=false) {
     const session = await auth()
     
     if (!session && redirectIfUnauthed) {
@@ -13,4 +13,4 @@ async function useAuth(redirectIfUnauthed:boolean=false) {
     return session
 }
 
-export default useAuth
+export default authCheck
