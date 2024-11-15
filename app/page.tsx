@@ -1,8 +1,8 @@
 import Link from "next/link"
-import authCheck from "@/app/lib/auth-fn"
+import { auth } from "@/auth.config"
 
 export default async function Home() {
-  const session = await authCheck()
+  const session = await auth()
   const userInfo = JSON.stringify(session || {}, null, 2)
   console.log('home', {session})
   return (

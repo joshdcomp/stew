@@ -1,8 +1,11 @@
-import { signOut } from '@/auth.config'
-import authCheck from "@/app/lib/auth-fn"
+import { auth, signOut } from '@/auth.config'
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
-  const session = await authCheck(true)
+  const session = await auth()
+  if (!session?.user) {
+    redirect('/login')
+  }
   const userInfo = JSON.stringify(session || {}, null, 2)
 
   return (
