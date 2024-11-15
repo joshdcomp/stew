@@ -5,24 +5,21 @@ import { prisma } from "@/prisma"
 
 import Google from 'next-auth/providers/google'
 
+export const baseAuthConfig = {
+  adapter: PrismaAdapter(prisma),
+  providers: [
+    Google,
+  ],
+} satisfies NextAuthConfig
 
 export const authConfig = {
+  ...baseAuthConfig,
   pages: {
     signIn: '/login',
   },
-  adapter: PrismaAdapter(prisma),
+  // have to use jwt's because prisma doesn't play nicely on edge fn's
+  // session: { strategy: "jwt" },
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
-      if (isOnDashboard) {
-        if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
-      } else if (isLoggedIn) {
-        return Response.redirect(new URL('/dashboard', nextUrl));
-      }
-      return true;
-    },
     jwt({ token, user }) {
       if (user) {
         token.id = user.id
@@ -42,9 +39,6 @@ export const authConfig = {
       return session
     },
   },
-  providers: [
-    Google,
-  ],
-} satisfies NextAuthConfig;
+} satisfies NextAuthConfig
 
 export const { handlers, signIn, signOut, auth } = NextAuth(authConfig)
