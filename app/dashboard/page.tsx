@@ -1,4 +1,5 @@
 import { auth, signOut } from '@/auth.config'
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 export default async function Home() {
@@ -13,6 +14,7 @@ export default async function Home() {
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <h1>dashboard</h1>
         <pre><code>{userInfo}</code></pre>
+        <Link href="/chore-wars">Chore wars</Link>
         <form
           action={async () => {
             "use server"

@@ -1,14 +1,16 @@
 // prisma/schema.prisma
 datasource db {
-  provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
 }
- 
+
+// Authentication
+
 model User {
   id            String          @id @default(cuid())
   name          String?
@@ -19,11 +21,16 @@ model User {
   sessions      Session[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  createdChores   Chore[] @relation("CreatedChores")
+  completedChores Chore[] @relation("CompletedChores")
+
+  createdWars ChoreWar[] @relation("CreatedWars")
 }
- 
+
 model Account {
   userId            String
   type              String
@@ -36,33 +43,33 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@id([provider, providerAccountId])
 }
- 
+
 model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
- 
+
 model VerificationToken {
   identifier String
   token      String
   expires    DateTime
- 
+
   @@id([identifier, token])
 }
- 
+
 // Optional for WebAuthn support
 model Authenticator {
   credentialID         String  @unique
@@ -73,8 +80,48 @@ model Authenticator {
   credentialDeviceType String
   credentialBackedUp   Boolean
   transports           String?
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@id([userId, credentialID])
+}
+
+// Chores
+
+model Chore {
+  id            Int         @id @default(autoincrement())
+  type          ChoreType   @default(ONETIME)
+  createdBy     User      @relation("CreatedChores", fields: [createdByID], references: [id])
+  createdByID   String
+  createdOn     DateTime    @default(now())
+  completedBy   User?       @relation("CompletedChores", fields: [completedByID], references: [id])
+  completedByID String?
+  completedOn   DateTime?
+  expiresOn     DateTime?
+  status        ChoreStatus @default(AVAILABLE)
+  points        Int?
+  title         String
+  description   String?
+}
+
+enum ChoreType {
+  ONETIME
+  REPEATABLE
+}
+
+enum ChoreStatus {
+  AVAILABLE
+  COMPLETED
+  EXPIRED
+}
+
+model ChoreWar {
+  id          Int       @id @default(autoincrement())
+  createdBy   User      @relation("CreatedWars", fields: [createdByID], references: [id])
+  createdByID String
+  createdOn   DateTime  @default(now())
+  startDate   DateTime?
+  endDate     DateTime?
+  title       String
+  description String
 }
