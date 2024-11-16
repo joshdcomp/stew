@@ -5,7 +5,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import clsx from 'clsx'
 import UserMenu from './user-menu'
-import { type User } from 'next-auth'
+import { usePathname } from 'next/navigation'
 
 const navigation = [
     { name: 'Dashboard', href: '/dashboard' },
@@ -13,7 +13,6 @@ const navigation = [
 ]
 
 // @todo take mobile menu out of document flow (pushes content down)
-// @todo wire up current link logic
 export default function Header() {
 
     return (
@@ -46,7 +45,9 @@ export default function Header() {
                         </div>
                         <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                             {navigation.map((item) => {
-                                const isCurrent = item.href === '/dashboard'
+                                const pathname = usePathname()
+                                // will need to update logic as more routes are added
+                                const isCurrent = item.href === pathname
                                 const classes = clsx(
                                     'inline-flex items-center border-b-2 px-1 pt-1 text-sm',
                                     {
