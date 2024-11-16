@@ -1,7 +1,7 @@
 import LoginForm from '@/app/ui/login-form'
 import { auth } from '@/auth.config'
 import { redirect } from 'next/navigation'
- 
+
 export default async function LoginPage() {
   const session = await auth()
   if (!!session) {
@@ -9,16 +9,22 @@ export default async function LoginPage() {
   }
   return (
     <main className="flex items-center justify-center md:h-screen">
-      <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
-        <div className="flex h-20 w-full items-end rounded-lg bg-blue-500 p-3 md:h-36">
-          <div className="w-32 text-white md:w-36">
-            logo
-          </div>
+      <div className="relative max-w-[800px] mx-auto flex w-full min-h-full flex-1 flex-col justify-center space-y-2.5 p-4 py-12 md:-mt-32 sm:px-6 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+          <img
+            alt="Your Company"
+            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+            className="mx-auto h-10 w-auto"
+          />
+          <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+            Sign in for battle
+          </h2>
         </div>
-        <div>
-        </div>
+
         <LoginForm />
       </div>
     </main>
   )
 }
+
+
