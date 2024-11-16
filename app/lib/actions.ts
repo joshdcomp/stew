@@ -1,7 +1,7 @@
 'use server';
  
-import { signIn } from '@/auth.config';
-import { AuthError } from 'next-auth';
+import { auth, signIn, signOut } from '@/auth.config';
+import { AuthError, type User } from 'next-auth';
  
 // ...
  
@@ -11,7 +11,8 @@ export async function authenticate(
 ) {
   try {
     await signIn('credentials', formData);
-  } catch (error) {
+  }
+  catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':
@@ -21,5 +22,15 @@ export async function authenticate(
       }
     }
     throw error;
+  }
+}
+
+export async function logOut() {
+  try {
+    await signOut({ redirectTo: '/login' })
+  }
+  catch (error) {
+    console.log('[logout] error', error)
+    throw error
   }
 }

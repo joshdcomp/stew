@@ -10,7 +10,7 @@ export default async function LoginForm() {
       <div>
         <h2>Already logged in!</h2>
         <p>User:</p>
-        <pre><code>{userInfo}</code></pre>
+        <pre className="text-slate-900 max-w-md overflow-scroll"><code>{userInfo}</code></pre>
         <form
           action={async () => {
             "use server"

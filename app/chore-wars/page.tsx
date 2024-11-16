@@ -3,6 +3,7 @@ import { auth } from '@/auth.config'
 import { redirect } from 'next/navigation'
 import ChoreWarsContent from './content'
 import { ChoreProvider } from './chore-context'
+import AuthenticatedPage from '../ui/AuthenticatedPage'
 
 export default async function ChoreWars() {
     const session = await auth()
@@ -15,8 +16,12 @@ export default async function ChoreWars() {
     const chores = prisma.chore.findMany()
 
     return (
-        <ChoreProvider chorePromise={chores}>
-            <ChoreWarsContent session={session} />
-        </ChoreProvider>
+        <AuthenticatedPage>
+            <ChoreProvider chorePromise={chores}>
+                <ChoreWarsContent session={session} />
+            </ChoreProvider>
+        </AuthenticatedPage>
     )
 }
+
+

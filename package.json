@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.3",
+    "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.1.5",
     "@neondatabase/serverless": "^0.10.3",
     "@prisma/adapter-neon": "^5.22.0",
