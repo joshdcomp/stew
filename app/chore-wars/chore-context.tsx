@@ -1,23 +1,36 @@
 'use client'
 
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
+import { getChores } from '@/app/lib/actions'
 
-export const ChoreContext = createContext<Promise<any> | null>(null)
+export const ChoreContext = createContext<Array<any> | null>(null)
 
 export function ChoreProvider({
     children,
-    chorePromise,
 }: {
-    children: React.ReactNode
-    chorePromise: Promise<any>
+        children: React.ReactNode,
 }) {
+    const [chores, setChores] = useState([])
+    useEffect(() => {
+        const fetchChores = async () => {
+            console.log('chore context: getting chores')
+            const chores = await getChores()
+            console.log('chore context: chores', chores)
+            if (!!chores) {
+                setChores(chores)
+            }
+        }
+
+        fetchChores()
+    }, [])
     return (
-        <ChoreContext.Provider value={chorePromise}>{children}</ChoreContext.Provider>
+        <ChoreContext.Provider value={chores}>{children}</ChoreContext.Provider>
     )
 }
 
 export function useChoreContext() {
     const context = useContext(ChoreContext)
+
     if (!context) {
         throw new Error('useChoreContext must be used within a ChoreProvider')
     }

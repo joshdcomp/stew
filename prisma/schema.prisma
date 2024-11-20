@@ -27,8 +27,6 @@ model User {
 
   createdChores   Chore[] @relation("CreatedChores")
   completedChores Chore[] @relation("CompletedChores")
-
-  createdWars ChoreWar[] @relation("CreatedWars")
 }
 
 model Account {
@@ -89,19 +87,29 @@ model Authenticator {
 // Chores
 
 model Chore {
-  id            Int         @id @default(autoincrement())
-  type          ChoreType   @default(ONETIME)
-  createdBy     User      @relation("CreatedChores", fields: [createdByID], references: [id])
-  createdByID   String
-  createdOn     DateTime    @default(now())
-  completedBy   User?       @relation("CompletedChores", fields: [completedByID], references: [id])
+  id Int @id @default(autoincrement())
+
+  createdBy     User?   @relation("CreatedChores", fields: [createdByID], references: [id])
+  createdByID   String?
+  completedBy   User?   @relation("CompletedChores", fields: [completedByID], references: [id])
   completedByID String?
-  completedOn   DateTime?
-  expiresOn     DateTime?
-  status        ChoreStatus @default(AVAILABLE)
-  points        Int?
-  title         String
-  description   String?
+
+  battle   ChoreBattle? @relation("Chores", fields: [battleID], references: [id])
+  battleID Int?
+
+  createdOn   DateTime  @default(now())
+  completedOn DateTime?
+  effectiveOn DateTime? // for use with repeating type. When a repeatable chore is completed, a new one should be spawned where the effective date is calculated by cadenceUnit+cadenceValue. When a new battle starts, any chores that become effective within the battle dates should get an updated effective date to be the start of the battle
+  expiresOn   DateTime?
+  dueOn       DateTime?
+
+  type         ChoreType     @default(ONETIME)
+  cadenceUnit  CadenceUnits?
+  cadenceValue Int?
+  status       ChoreStatus   @default(AVAILABLE)
+  points       Int?
+  title        String
+  description  String?
 }
 
 enum ChoreType {
@@ -115,13 +123,40 @@ enum ChoreStatus {
   EXPIRED
 }
 
-model ChoreWar {
+enum CadenceUnits {
+  DAY
+  WEEK
+  MONTH
+  YEAR
+}
+
+model Room {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+}
+
+model ChoreBattle {
   id          Int       @id @default(autoincrement())
-  createdBy   User      @relation("CreatedWars", fields: [createdByID], references: [id])
-  createdByID String
   createdOn   DateTime  @default(now())
   startDate   DateTime?
   endDate     DateTime?
   title       String
-  description String
+  description String?
+
+  war   ChoreWar @relation("ChoreBattles", fields: [warID], references: [id])
+  warID Int
+
+  chores Chore[] @relation("Chores")
+}
+
+model ChoreWar {
+  id          Int       @id @default(autoincrement())
+  createdOn   DateTime  @default(now())
+  startDate   DateTime?
+  endDate     DateTime?
+  title       String
+  description String?
+
+  battles ChoreBattle[] @relation("ChoreBattles")
 }

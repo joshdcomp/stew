@@ -1,10 +1,9 @@
 'use server';
  
 import { auth, signIn, signOut } from '@/auth.config';
+import { prisma } from '@/prisma';
 import { AuthError, type User } from 'next-auth';
- 
-// ...
- 
+
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData,
@@ -32,5 +31,46 @@ export async function logOut() {
   catch (error) {
     console.log('[logout] error', error)
     throw error
+  }
+}
+
+export async function getUser() {
+  try {
+    console.log('[user] fetching current user')
+    const { user } = await auth()
+    return user
+  }
+  catch (err) {
+    console.log('[user] error getting user', err)
+    throw err
+  }
+}
+
+export async function getRooms() {
+  try {
+    console.log('[rooms] fetching rooms')
+    const rooms = await prisma.room.findMany()
+    return rooms
+  }
+  catch (err) {
+    console.log('[rooms] error getting rooms', err)
+    throw err
+  }
+}
+
+export async function getChores() {
+  try {
+    console.log('[chores] fetching chores')
+    const chores = await prisma.chore.findMany({
+      orderBy: {
+        createdOn: 'desc'
+      }
+    })
+
+    return chores
+  }
+  catch (err) {
+    console.log('[chores] error getting chores', err)
+    throw err
   }
 }

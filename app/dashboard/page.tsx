@@ -12,8 +12,8 @@ export default async function Home() {
 
   return (
     <AuthenticatedPage>
-      <h1 className='text-slate-900'>dashboard</h1>
-      <pre className="text-slate-900 max-w-md overflow-scroll"><code>{userInfo}</code></pre>
+      <h1 className='text-primary'>dashboard</h1>
+      <pre className="text-primary max-w-md overflow-scroll"><code>{userInfo}</code></pre>
       <Link href="/chore-wars">Chore wars</Link>
       <form
         action={async () => {

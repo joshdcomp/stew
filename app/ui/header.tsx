@@ -16,7 +16,7 @@ const navigation = [
 export default function Header() {
 
     return (
-        <Disclosure as="nav" className="bg-white shadow">
+        <Disclosure as="nav" className="bg-white shadow sticky top-0">
             <div className="px-2 sm:px-3 lg:px-4 w-full">
                 <div className="relative flex h-16 justify-between">
 

@@ -1,7 +1,8 @@
 "use server"
 import { auth } from '@/auth.config'
 import { prisma } from '@/prisma'
-import { Prisma } from '@prisma/client'
+import { type Prisma } from '@prisma/client'
+import { revalidatePath } from 'next/cache'
 
 export default async (data: FormData) => {
     const session = await auth()
@@ -14,4 +15,5 @@ export default async (data: FormData) => {
     } satisfies Prisma.ChoreCreateInput
     //ship it
     await prisma.chore.create({ data: chore })
+    revalidatePath('/chore-wars')
 }

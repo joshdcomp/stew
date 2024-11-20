@@ -3,6 +3,8 @@
 import { User } from 'next-auth'
 import { createContext, useContext } from 'react'
 
+export const dynamic = 'force-dynamic'
+
 export const UserContext = createContext<User | null>(null)
 
 export function UserProvider({

@@ -1,4 +1,8 @@
-import { Pool, neonConfig } from '@neondatabase/serverless'
+/**
+ * This file exists to consolidate instances of the prisma client (i.e: don't
+ * spawn a new instance every time we need to call the db)
+ */
+import { Pool } from '@neondatabase/serverless'
 import { PrismaNeon } from '@prisma/adapter-neon'
 import { PrismaClient } from '@prisma/client'
 
