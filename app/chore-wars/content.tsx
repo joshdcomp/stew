@@ -1,5 +1,4 @@
 'use client'
-import { useEffect, useState } from 'react'
 import { useChoreContext } from './chore-context'
 import CreateChore from './create-chore-form'
 import { useUserContext } from '@/app/ui/user-context'

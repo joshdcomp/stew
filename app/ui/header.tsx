@@ -14,7 +14,7 @@ const navigation = [
 
 // @todo take mobile menu out of document flow (pushes content down)
 export default function Header() {
-
+    const pathname = usePathname()
     return (
         <Disclosure as="nav" className="bg-white shadow sticky top-0">
             <div className="px-2 sm:px-3 lg:px-4 w-full">
@@ -45,7 +45,6 @@ export default function Header() {
                         </div>
                         <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                             {navigation.map((item) => {
-                                const pathname = usePathname()
                                 // will need to update logic as more routes are added
                                 const isCurrent = item.href === pathname
                                 const classes = clsx(

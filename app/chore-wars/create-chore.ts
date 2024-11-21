@@ -4,7 +4,7 @@ import { prisma } from '@/prisma'
 import { type Prisma } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 
-export default async (data: FormData) => {
+const createChore = async (data: FormData) => {
     const session = await auth()
     // config it
     const chore = {
@@ -17,3 +17,5 @@ export default async (data: FormData) => {
     await prisma.chore.create({ data: chore })
     revalidatePath('/chore-wars')
 }
+
+export default createChore

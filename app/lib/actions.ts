@@ -2,10 +2,9 @@
  
 import { auth, signIn, signOut } from '@/auth.config';
 import { prisma } from '@/prisma';
-import { AuthError, type User } from 'next-auth';
+import { AuthError } from 'next-auth';
 
 export async function authenticate(
-  prevState: string | undefined,
   formData: FormData,
 ) {
   try {

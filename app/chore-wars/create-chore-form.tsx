@@ -3,26 +3,12 @@ import createChore from '@/app/chore-wars/create-chore'
 
 import { useState } from 'react'
 import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
-import { CalendarIcon, TagIcon } from '@heroicons/react/20/solid'
+import { CalendarIcon } from '@heroicons/react/20/solid'
 import { ScaleIcon } from '@heroicons/react/24/outline'
-import RoomPicker from './room-picker'
-import { useFormStatus } from 'react-dom'
 
-const assignees = [
-    { name: 'Unassigned', value: null },
-    {
-        name: 'Wade Cooper',
-        value: 'wade-cooper',
-        avatar:
-            'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    // More items...
-]
-const labels = [
-    { name: 'Unlabelled', value: null },
-    { name: 'Engineering', value: 'engineering' },
-    // More items...
-]
+import RoomPicker from './room-picker'
+import TypePicker from './type-picker'
+
 const dueDates = [
     { name: 'No due date', value: null },
     { name: 'Today', value: 'today' },
@@ -35,7 +21,6 @@ function classNames(...classes) {
 
 export default function CreateChore() {
 
-    const [labelled, setLabelled] = useState(labels[0])
     const [dated, setDated] = useState(dueDates[0])
 
     //@TODO break form out into the content component so we can use the form status
@@ -96,45 +81,7 @@ export default function CreateChore() {
                     <RoomPicker />
 
                     {/* Label */}
-                    <Listbox as="div" value={labelled} onChange={setLabelled} className="shrink-0">
-                        <Label className="sr-only">Add a label</Label>
-                        <div className="relative">
-                            <ListboxButton className="relative inline-flex items-center whitespace-nowrap rounded-full bg-gray-50 px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 sm:px-3">
-                                <TagIcon
-                                    aria-hidden="true"
-                                    className={classNames(
-                                        labelled.value === null ? 'text-gray-300' : 'text-gray-500',
-                                        'size-5 shrink-0 sm:-ml-1',
-                                    )}
-                                />
-                                <span
-                                    className={classNames(
-                                        labelled.value === null ? '' : 'text-gray-900',
-                                        'hidden truncate sm:ml-2 sm:block',
-                                    )}
-                                >
-                                    {labelled.value === null ? 'Label' : labelled.name}
-                                </span>
-                            </ListboxButton>
-
-                            <ListboxOptions
-                                transition
-                                className="absolute right-0 z-10 mt-1 max-h-56 w-52 overflow-auto rounded-lg bg-white py-3 text-base shadow ring-1 ring-black/5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in sm:text-sm"
-                            >
-                                {labels.map((label) => (
-                                    <ListboxOption
-                                        key={label.value}
-                                        value={label}
-                                        className="relative cursor-default select-none bg-white px-3 py-2 data-[focus]:bg-gray-100"
-                                    >
-                                        <div className="flex items-center">
-                                            <span className="block truncate font-medium">{label.name}</span>
-                                        </div>
-                                    </ListboxOption>
-                                ))}
-                            </ListboxOptions>
-                        </div>
-                    </Listbox>
+                    <TypePicker />
 
                     {/* Due date */}
                     <Listbox as="div" value={dated} onChange={setDated} className="shrink-0">

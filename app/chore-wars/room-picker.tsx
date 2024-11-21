@@ -60,16 +60,12 @@ export default function RoomPicker() {
                                 {({ focus, selected }) => {
                                     const styles = {
                                         wrapper: clsx(
-                                            'relative flex cursor-default select-none bg-white px-3 py-2 text-gray-500',
+                                            'relative flex cursor-default select-none bg-white px-3 py-2 text-gray-500 cursor-pointer data-[focus]:bg-gray-100',
                                             { 'bg-gray-100': focus }
                                         ),
-                                        label: 'ml-3 block truncate shrink-0 font-medium group-data-[selected]:font-semibold',
+                                        label: 'ml-3 block truncate shrink-0 font-medium group-data-selected:font-semibold',
                                         checkIcon: clsx(
                                             'absolute inset-y-0 left-0 flex items-center pl-1.5 text-indigo-600',
-                                            { 'text-white': focus, },
-                                            // @TODO something weird is happening where the check icon disappears on hover
-                                            { 'invisible': !selected, 'visible': selected }
-
                                         ),
                                     }
                                     return (
@@ -77,10 +73,11 @@ export default function RoomPicker() {
                                             className={styles.wrapper}
                                         >
                                             <span className={styles.label}>{room.name}</span>
-
+                                            {selected ? (
                                             <span className={styles.checkIcon}>
                                                 <CheckIcon aria-hidden="true" className="size-4" />
                                             </span>
+                                            ) : null}
                                         </div>
                                     )
                                 }}
