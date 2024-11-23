@@ -112,6 +112,7 @@ export async function completeChore(chore) {
     if (!!user.id && choreDBEntry.status === ChoreStatus.AVAILABLE) {
       const choreEntry = {
         completedByID: user.id,
+        // @ts-ignore
         completedOn: dayJs().utc().format(),
         status: ChoreStatus.COMPLETED,
       }
