@@ -61,6 +61,10 @@ export async function getChores() {
   try {
     console.log('[chores] fetching chores')
     const chores = await prisma.chore.findMany({
+      include: {
+        room: true,
+        createdBy: true,
+      },
       orderBy: {
         createdOn: 'desc'
       }

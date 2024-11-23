@@ -110,6 +110,8 @@ model Chore {
   points       Int?
   title        String
   description  String?
+  room         Room?         @relation("ChoreRoom", fields: [roomID], references: [id])
+  roomID       Int?
 }
 
 enum ChoreType {
@@ -134,6 +136,8 @@ model Room {
   id          Int     @id @default(autoincrement())
   name        String
   description String?
+
+  chores Chore[] @relation("ChoreRoom")
 }
 
 model ChoreBattle {

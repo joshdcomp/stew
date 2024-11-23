@@ -33,6 +33,7 @@ export default function RoomPicker() {
                 value={selectedRooms}
                 onChange={setSelectedRooms}
                 className="shrink-0"
+                name='rooms'
             >
                 <Label className="sr-only">{buttonLabelDefault}</Label>
                 <div className="relative">

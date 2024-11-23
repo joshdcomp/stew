@@ -19,7 +19,13 @@ export default function TypePicker() {
     const [labelled, setLabelled] = useState(types[0])
 
     return (
-        <Listbox as="div" value={labelled} onChange={setLabelled} className="shrink-0">
+        <Listbox
+            as="div"
+            value={labelled}
+            onChange={setLabelled}
+            className="shrink-0"
+            name="type"
+        >
             <Label className="sr-only">Add a type</Label>
             <div className="relative">
                 <ListboxButton className="relative inline-flex items-center whitespace-nowrap rounded-full bg-gray-50 px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 sm:px-3">

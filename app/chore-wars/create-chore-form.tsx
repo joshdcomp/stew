@@ -1,31 +1,13 @@
 'use client'
 import createChore from '@/app/chore-wars/create-chore'
 
-import { useState } from 'react'
-import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
-import { CalendarIcon } from '@heroicons/react/20/solid'
-import { ScaleIcon } from '@heroicons/react/24/outline'
-
 import RoomPicker from './room-picker'
 import TypePicker from './type-picker'
-
-const dueDates = [
-    { name: 'No due date', value: null },
-    { name: 'Today', value: 'today' },
-    // More items...
-]
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
+import DueDatePicker from './due-date-picker'
+import PointsInput from './points-input'
+import SubmitButton from './submit-button'
 
 export default function CreateChore() {
-
-    const [dated, setDated] = useState(dueDates[0])
-
-    //@TODO break form out into the content component so we can use the form status
-    // const { pending } = useFormStatus()
-    // console.log({ pending })
 
     return (
         <form
@@ -84,77 +66,16 @@ export default function CreateChore() {
                     <TypePicker />
 
                     {/* Due date */}
-                    <Listbox as="div" value={dated} onChange={setDated} className="shrink-0">
-                        <Label className="sr-only">Add a due date</Label>
-                        <div className="relative">
-                            <ListboxButton className="relative inline-flex items-center whitespace-nowrap rounded-full bg-gray-50 px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 sm:px-3">
-                                <CalendarIcon
-                                    aria-hidden="true"
-                                    className={classNames(
-                                        dated.value === null ? 'text-gray-300' : 'text-gray-500',
-                                        'size-5 shrink-0 sm:-ml-1',
-                                    )}
-                                />
-                                <span
-                                    className={classNames(
-                                        dated.value === null ? '' : 'text-gray-900',
-                                        'hidden truncate sm:ml-2 sm:block',
-                                    )}
-                                >
-                                    {dated.value === null ? 'Due date' : dated.name}
-                                </span>
-                            </ListboxButton>
-
-                            <ListboxOptions
-                                transition
-                                className="absolute right-0 z-10 mt-1 max-h-56 w-52 overflow-auto rounded-lg bg-white py-3 text-base shadow ring-1 ring-black/5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in sm:text-sm"
-                            >
-                                {dueDates.map((dueDate) => (
-                                    <ListboxOption
-                                        key={dueDate.value}
-                                        value={dueDate}
-                                        className="relative cursor-default select-none bg-white px-3 py-2 data-[focus]:bg-gray-100"
-                                    >
-                                        <div className="flex items-center">
-                                            <span className="block truncate font-medium">{dueDate.name}</span>
-                                        </div>
-                                    </ListboxOption>
-                                ))}
-                            </ListboxOptions>
-                        </div>
-                    </Listbox>
+                    <DueDatePicker />
                 </div>
 
                 <div className="flex items-center justify-between space-x-3 border-t border-gray-200 px-2 py-2 sm:px-3">
                     {/* points */}
-                    <div className="flex">
-                        <label
-                            htmlFor="points"
-                            className="group -my-2 -ml-2 inline-flex items-center rounded-full pl-3 py-2 text-left text-gray-400"
-                        >
-                            <ScaleIcon aria-hidden="true" className="-ml-1 mr-2 size-5 group-hover:text-gray-500" />
+                    <PointsInput />
 
-                            <span className="text-sm italic text-gray-500 group-hover:text-gray-600">Points</span>
-                        </label>
-                        <input
-                            id="points"
-                            name="points"
-                            required
-                            type='number'
-                            min={1}
-                            max={100}
-                            placeholder="##"
-                            className="block w-full border-0 resize-none px-3 py-2 text-gray-900 sm:text-sm/6 font-medium placeholder:text-gray-400 focus:ring-0"
-                        />
-                    </div>
                     {/* submit */}
                     <div className="shrink-0">
-                        <button
-                            type="submit"
-                            className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        >
-                            Create
-                        </button>
+                        <SubmitButton />
                     </div>
                 </div>
             </div>
