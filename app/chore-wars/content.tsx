@@ -57,6 +57,7 @@ export default function ChoreWarsContent() {
             }
             else {
                 const newChores = await getChores()
+                // I wanna know if this works...
                 setChores(newChores)
                 // not even sure this works
                 router.refresh()
