@@ -12,10 +12,10 @@ export default async function AuthenticatedPage({ children }: { children: React.
     return (
         <UserProvider user={session?.user}>
             <Header />
-            <div className="items-center justify-items-center min-h-screen p-8 pb-20 gap-16 font-[family-name:var(--font-geist-sans)]">
-                <main className="flex flex-col gap-8 w-full row-start-2 items-center sm:items-start">
+            <div className="items-center justify-items-center min-h-screen p-4 pb-20 gap-16 font-[family-name:var(--font-geist-sans)]">
+                <div className="flex flex-col gap-8 w-full row-start-2 items-center sm:items-start">
                     {children}
-                </main>
+                </div>
             </div>
         </UserProvider>
     )

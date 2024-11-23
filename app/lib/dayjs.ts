@@ -1,4 +1,7 @@
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 
-// plugins for dayjs go here
-export const dayJs = dayjs
+const exportable = dayjs.extend(utc)
+
+export const dayJs = exportable
+export { Dayjs }

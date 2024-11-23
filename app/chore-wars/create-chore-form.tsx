@@ -11,10 +11,8 @@ export default function CreateChore() {
 
     return (
         <form
-            action={async (e) => {
-                await createChore(e)
-            }}
-            className="relative block w-full"
+            action={createChore}
+            className="relative block w-full mt-0"
         >
             <div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
                 <label htmlFor="title" className="sr-only">
