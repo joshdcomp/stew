@@ -1,11 +1,11 @@
 'use client'
-import { useChoreContext } from './chore-context'
+// import { useChoreContext } from './chore-context'
 import CreateChore from './create-chore-form'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
 import { dayJs } from '../lib/dayjs'
 import ChoreBadge from './chore-badge'
-import { completeChore, deleteChore } from '../lib/actions'
+import { completeChore, deleteChore, getChores } from '../lib/actions'
 import { useCallback, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { ChoreStatus } from '@prisma/client'
@@ -23,7 +23,7 @@ export default function ChoreWarsContent() {
 
     useEffect(() => {
         const doGetChores = async () => {
-            const _chores = await useChoreContext()
+            const _chores = await getChores()
             setChores(_chores)
         }
         doGetChores()
@@ -38,14 +38,14 @@ export default function ChoreWarsContent() {
                 setChoreErrors(newErrs)
             }
             else {
-                const newChores = [...useChoreContext()]
+                const newChores = await getChores()
                 setChores(newChores)
                 // not even sure this works
                 router.refresh()
             }
         }
         doCompleteChore()
-    }, [choreErrors, setChoreErrors, chores])
+    }, [choreErrors, setChoreErrors, router])
 
     const handleDeleteChore = useCallback((chore) => {
         const doDeleteChore = async () => {
@@ -56,14 +56,14 @@ export default function ChoreWarsContent() {
                 setChoreErrors(newErrs)
             }
             else {
-                const newChores = [...useChoreContext()]
+                const newChores = await getChores()
                 setChores(newChores)
                 // not even sure this works
                 router.refresh()
             }
         }
         doDeleteChore()
-    }, [choreErrors, setChoreErrors, chores])
+    }, [choreErrors, setChoreErrors, router])
 
     return (
         <>
