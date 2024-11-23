@@ -131,6 +131,7 @@ export default function ChoreWarsContent() {
                                                             ? (
                                                                 <>
                                                                     <p className="whitespace-nowrap">
+                                                                        {/* @ts-expect-error Type error: This expression is not callable */}
                                                                         Due on <time dateTime={chore.dueOn}>{dayJs(chore.dueOn).format(`MMM D 'YY`)}</time>
                                                                     </p>
                                                                     <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
@@ -142,6 +143,7 @@ export default function ChoreWarsContent() {
                                                     }
 
                                                     <p className="truncate">
+                                                        {/* @ts-expect-error Type error: This expression is not callable */}
                                                         Created by {chore?.createdBy?.name} on <time dateTime={chore.createdOn} title={chore.createdOn}>{dayJs(chore.createdOn).format(`MMM D 'YY`)}</time>
                                                     </p>
                                                 </div>
