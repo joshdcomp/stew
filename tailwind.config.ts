@@ -1,4 +1,6 @@
-import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss"
+import colors from 'tailwindcss/colors'
+import forms from '@tailwindcss/forms'
 
 export default {
   content: [
@@ -12,7 +14,12 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      textColor: {
+        'primary': colors.slate['900']
+      }
     },
   },
-  plugins: [],
-} satisfies Config;
+  plugins: [
+    forms
+  ],
+} satisfies Config
