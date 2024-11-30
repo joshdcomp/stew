@@ -12,6 +12,18 @@ async function main() {
                 description: 'The place where we bed',
             },
             {
+                name: 'Bathroom',
+                description: 'The place where we bathe',
+            },
+            {
+                name: 'Hallway',
+                description: 'The place where we hall',
+            },
+            {
+                name: 'Utility closet',
+                description: 'The place where we utility',
+            },
+            {
                 name: 'Kitchen',
                 description: 'The place where we kitchen',
             },

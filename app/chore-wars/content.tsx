@@ -1,33 +1,27 @@
 'use client'
-// import { useChoreContext } from './chore-context'
+import { useChoreContext } from './chore-context'
 import CreateChore from './create-chore-form'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
 import { dayJs } from '../lib/dayjs'
 import ChoreBadge from './chore-badge'
-import { completeChore, deleteChore, getChores } from '../lib/actions'
+import { completeChore, deleteChore } from '../lib/actions'
 import { useCallback, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { ChoreStatus } from '@prisma/client'
-import { useRouter } from 'next/navigation'
 
 
 export default function ChoreWarsContent() {
-    const router = useRouter()
-    // const _chores = useChoreContext()
-    const [chores, setChores] = useState([])
+    const { chores, refreshChores } = useChoreContext()
 
-
-    console.log({ chores })
     const [choreErrors, setChoreErrors] = useState([])
 
     useEffect(() => {
-        const doGetChores = async () => {
-            const _chores = await getChores()
-            setChores(_chores)
+        // logic to stop loop crashing
+        if (!chores.length) {
+            refreshChores()
         }
-        doGetChores()
-    }, [setChores, choreErrors, setChoreErrors])
+    }, [choreErrors, setChoreErrors, refreshChores, chores])
 
     const handleCompleteChore = useCallback((chore) => {
         const doCompleteChore = async () => {
@@ -38,14 +32,11 @@ export default function ChoreWarsContent() {
                 setChoreErrors(newErrs)
             }
             else {
-                const newChores = await getChores()
-                setChores(newChores)
-                // not even sure this works
-                router.refresh()
+                refreshChores()
             }
         }
         doCompleteChore()
-    }, [choreErrors, setChoreErrors, router])
+    }, [choreErrors, setChoreErrors, refreshChores])
 
     const handleDeleteChore = useCallback((chore) => {
         const doDeleteChore = async () => {
@@ -56,14 +47,11 @@ export default function ChoreWarsContent() {
                 setChoreErrors(newErrs)
             }
             else {
-                const newChores = await getChores()
-                setChores(newChores)
-                // not even sure this works
-                router.refresh()
+                refreshChores()
             }
         }
         doDeleteChore()
-    }, [choreErrors, setChoreErrors, router])
+    }, [choreErrors, setChoreErrors, refreshChores])
 
     return (
         <>

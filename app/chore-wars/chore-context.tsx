@@ -3,7 +3,12 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { getChores } from '@/app/lib/actions'
 
-export const ChoreContext = createContext<Array<any> | null>(null)
+type ChoreContextValue = {
+    chores: Array<any>,
+    refreshChores: () => void
+}
+
+export const ChoreContext = createContext<ChoreContextValue | null>(null)
 
 export function ChoreProvider({
     children,
@@ -11,20 +16,25 @@ export function ChoreProvider({
         children: React.ReactNode,
 }) {
     const [chores, setChores] = useState([])
-    useEffect(() => {
-        const fetchChores = async () => {
-            console.log('chore context: getting chores')
-            const chores = await getChores()
-            console.log('chore context: chores', chores)
-            if (!!chores) {
-                setChores(chores)
-            }
-        }
 
+    const fetchChores = async () => {
+        console.log('chore context: getting chores')
+        const chores = await getChores()
+        console.log('chore context: chores', chores)
+        if (!!chores) {
+            setChores(chores)
+        }
+    }
+
+    const refreshChores = () => {
+        fetchChores()
+    }
+
+    useEffect(() => {
         fetchChores()
     }, [])
     return (
-        <ChoreContext.Provider value={chores}>{children}</ChoreContext.Provider>
+        <ChoreContext.Provider value={{ chores, refreshChores }}>{children}</ChoreContext.Provider>
     )
 }
 
