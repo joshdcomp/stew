@@ -40,6 +40,7 @@ const createChore = async (data: FormData) => {
 
     //ship it
     await prisma.chore.createMany({ data: chores })
+
     revalidatePath('/chore-wars')
 }
 
