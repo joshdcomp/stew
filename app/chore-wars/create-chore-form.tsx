@@ -7,19 +7,39 @@ import DueDatePicker from './due-date-picker'
 import PointsInput from './points-input'
 import SubmitButton from './submit-button'
 import { useChoreContext } from './chore-context'
+import React from 'react'
+
+// @TODO wire up skeleton state
+// https://tailwindcss.com/docs/animation#pulse
+// import { useFormState, useFormStatus } from 'react-dom'
 
 export default function CreateChore() {
 
     const { refreshChores } = useChoreContext()
 
-    const handleCreateChore = (e: FormData) => {
-        createChore(e)
-        refreshChores()
+    const formRef = React.useRef<HTMLFormElement>(null)
+
+    const handleCreateChore = (formRef: HTMLFormElement, e: FormData) => {
+        console.log({ formRef })
+        try {
+            console.log('[<CreateChore/>] Creating chore')
+            createChore(e)
+
+            console.log('[<CreateChore/>] Updating chore list')
+            refreshChores()
+
+            console.log('[<CreateChore/>] Resetting form')
+            formRef?.reset()
+        }
+        catch (err) {
+            console.log('[<CreateChore/>.handleCreateChore]', err)
+        }
     }
 
     return (
         <form
-            action={handleCreateChore}
+            ref={formRef}
+            action={handleCreateChore.bind(null, formRef)}
             className="relative block w-full mt-0"
         >
             <div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">

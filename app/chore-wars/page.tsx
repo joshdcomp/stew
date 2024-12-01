@@ -1,6 +1,6 @@
 import ChoreWarsContent from './content'
 import { ChoreProvider } from './chore-context'
-import AuthenticatedPage from '../ui/AuthenticatedPage'
+import AuthenticatedPage from '@/app/ui/AuthenticatedPage'
 import ChoreSubNav from './chore-subnav'
 
 export const revalidate = 0
