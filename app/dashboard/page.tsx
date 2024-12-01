@@ -1,7 +1,7 @@
 import { auth, signOut } from '@/auth.config'
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import AuthenticatedPage from '../ui/AuthenticatedPage';
+import AuthenticatedPage from '@/app/ui/AuthenticatedPage';
 
 export default async function Home() {
   const session = await auth()

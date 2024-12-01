@@ -3,19 +3,19 @@ import { useState } from 'react'
 import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 import { CalendarIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
+import { KeyDateKeys } from '@/app/lib/key-dates'
 
-const dueDates = [
+const dueDatesFormOpts = [
     { name: 'No due date', value: null },
-    { name: 'Today', value: 'today' },
-    { name: 'This battle', value: 'battle' },
-    { name: 'This month', value: 'month' },
-    { name: 'This war', value: 'war' },
+    { name: 'Today', value: KeyDateKeys.TODAY },
+    { name: 'This battle', value: KeyDateKeys.BATTLE },
+    { name: 'This month', value: KeyDateKeys.MONTH },
+    { name: 'This war', value: KeyDateKeys.WAR },
     // @todo set up custom date option
 ]
 
-
 export default function DueDatePicker() {
-    const [dated, setDated] = useState(dueDates[0])
+    const [dated, setDated] = useState(dueDatesFormOpts[0])
     return (
         <Listbox
             as="div"
@@ -47,7 +47,7 @@ export default function DueDatePicker() {
                     transition
                     className="absolute right-0 z-10 mt-1 max-h-60 w-52 overflow-auto rounded-lg bg-white py-3 text-base shadow ring-1 ring-black/5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in sm:text-sm"
                 >
-                    {dueDates.map((dueDate) => (
+                    {dueDatesFormOpts.map((dueDate) => (
                         <ListboxOption
                             key={dueDate.value}
                             value={dueDate}

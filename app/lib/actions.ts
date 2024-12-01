@@ -3,7 +3,7 @@
 import { auth, signIn, signOut } from '@/auth.config';
 import { prisma } from '@/prisma';
 import { AuthError } from 'next-auth';
-import { dayJs } from './dayjs';
+import { dayJs } from '@/app/lib/dayjs';
 import { ChoreStatus } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 
