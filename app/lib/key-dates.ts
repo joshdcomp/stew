@@ -1,6 +1,6 @@
 import { dayJs } from '@/app/lib/dayjs'
 
-
+//@TODO switch to CadenceUnits from prisma client
 export enum KeyDateKeys {
     TODAY = 'today',
     BATTLE = 'battle',
@@ -15,25 +15,45 @@ export type KeyDates = {
     [KeyDateKeys.WAR]: () => string,
 }
 
+export enum KeyDateTypes {
+    CADENCE = 'cadence',
+    ACTUAL = 'actual',
+}
+export const keyDateLabels = {
+    [KeyDateKeys.TODAY]: {
+        [KeyDateTypes.CADENCE]: 'Daily',
+        [KeyDateTypes.ACTUAL]: 'Today',
+    },
+    [KeyDateKeys.BATTLE]: {
+        [KeyDateTypes.CADENCE]: 'Every battle',
+        [KeyDateTypes.ACTUAL]: 'This battle',
+    },
+    [KeyDateKeys.MONTH]: {
+        [KeyDateTypes.CADENCE]: 'Monthly',
+        [KeyDateTypes.ACTUAL]: 'This month',
+    },
+    [KeyDateKeys.WAR]: {
+        [KeyDateTypes.CADENCE]: 'Every war',
+        [KeyDateTypes.ACTUAL]: 'This war',
+    },
+}
+
 export const KeyDates = {
     [KeyDateKeys.TODAY]: async () => {
         // @ts-expect-error Type error: This expression is not callable
-        const due = dayJs().utc().endOf('today').format()
+        const due = dayJs.utc().endOf('today').format()
         return due
     },
     [KeyDateKeys.BATTLE]: async () => {
-        // @ts-expect-error Type error: This expression is not callable
-        const due = dayJs().utc().endOf('week').format() // need to get current battle end date
+        const due = dayJs.utc().endOf('week').format() // need to get current battle end date
         return due
     },
     [KeyDateKeys.MONTH]: async () => {
-        // @ts-expect-error Type error: This expression is not callable
-        const due = dayJs().utc().endOf('month').format()
+        const due = dayJs.utc().endOf('month').format()
         return due
     },
     [KeyDateKeys.WAR]: async () => {
-        // @ts-expect-error Type error: This expression is not callable
-        const due = dayJs().utc().endOf('year').format()// need to get current war end date
+        const due = dayJs.utc().endOf('year').format()// need to get current war end date
         return due
     },
 }

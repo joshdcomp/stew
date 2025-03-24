@@ -6,16 +6,17 @@ import { revalidatePath } from 'next/cache'
 import { KeyDates } from '@/app/lib/key-dates'
 
 async function getSemanticDate(semanticDateKey: string) {
-    const dateLiteral = await KeyDates[semanticDateKey as string]()
-    console.log({ semanticDateKey, dateLiteral })
-    return dateLiteral
+    return await KeyDates[semanticDateKey as string]()
 }
 
 const createChore = async (data: FormData) => {
-    const session = await auth()
-    const rooms = Array.from(data.keys()).filter(key => key.includes('rooms[')).map(key => data.get(key))
-
-    const chores = await Promise.all(rooms.map(async (room) => {
+    const choreFactory = async (data: FormData) => {
+        console.log(data)
+        const session = await auth()
+        // form input: repeat-cadence[value]
+        // db fields:
+        //   cadenceUnit
+        //    cadenceValue
         const dueOnKey = data.get('due-date[value]' as string)
         let dueOn = null
         if (!!dueOnKey) {
@@ -27,18 +28,30 @@ const createChore = async (data: FormData) => {
             title: data.get('title') as string,
             description: data.get('description') as string,
             points: parseInt(data.get('points') as string),
-            roomID: parseInt(room as string),
             type: ChoreType[data.get('type[value]') as string],
             dueOn,
         } satisfies Prisma.ChoreCreateManyInput
 
-        console.log({ dueOnKey, dueOn })
-
         return chore
-    }))
+    }
 
-    //ship it
-    await prisma.chore.createMany({ data: chores })
+    const rooms = Array.from(data.keys()).filter(key => key.includes('rooms[')).map(key => data.get(key))
+    // can I just…create many with a single array?
+    if (rooms.length) {
+        const chores = await Promise.all(rooms.map(async (room) => {
+            const chore = {
+                ...await choreFactory(data),
+                roomID: parseInt(room as string),
+            }
+            return chore
+        }))
+
+        await prisma.chore.createMany({ data: chores })
+    }
+    else {
+        const chore = await choreFactory(data)
+        await prisma.chore.create({ data: chore })
+    }
 
     revalidatePath('/chore-wars')
 }

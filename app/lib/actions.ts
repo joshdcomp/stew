@@ -112,9 +112,7 @@ export async function completeChore(chore) {
     if (!!user.id && choreDBEntry.status === ChoreStatus.AVAILABLE) {
       const choreEntry = {
         completedByID: user.id,
-        // @ts-expect-error Type error: This expression is not callable
-        // dayjs being weird
-        completedOn: dayJs().utc().format(),
+        completedOn: dayJs.utc().format(),
         status: ChoreStatus.COMPLETED,
       }
       const updatedChore = await prisma.chore.update({

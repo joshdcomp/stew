@@ -61,7 +61,6 @@ export default function CreateChore() {
                 <textarea
                     id="description"
                     name="description"
-                    required
                     rows={2}
                     placeholder="Write a description..."
                     className="block w-full border-0 py-0 placeholder:text-gray-400 text-primary focus:ring-0 sm:text-sm/6"
@@ -85,10 +84,10 @@ export default function CreateChore() {
             <div className="absolute inset-x-px bottom-0">
                 {/* Actions: These are just examples to demonstrate the concept, replace/wire these up however makes sense for your project. */}
                 <div className="flex flex-nowrap justify-end space-x-2 px-2 py-2 sm:px-3">
-                    {/* room picker */}
+                    {/* Room */}
                     <RoomPicker />
 
-                    {/* Label */}
+                    {/* Type */}
                     <TypePicker />
 
                     {/* Due date */}
