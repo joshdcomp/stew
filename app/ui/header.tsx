@@ -38,7 +38,7 @@ export default function Header() {
                                 <span className="sr-only">Chore Wars</span>
                                 <img
                                     alt=""
-                                    src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+                                    src="/service-bell.png"
                                     className="h-8 w-auto"
                                 />
                             </Link>
