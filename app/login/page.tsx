@@ -13,11 +13,11 @@ export default async function LoginPage() {
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
             alt="Your Company"
-            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+            src="/service-bell.png"
             className="mx-auto h-10 w-auto"
           />
           <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-            Sign in for battle
+            Sign in
           </h2>
         </div>
 
