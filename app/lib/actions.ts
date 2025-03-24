@@ -39,7 +39,7 @@ export async function logOut() {
 export async function getUser() {
   try {
     console.log('[user] fetching current user')
-    const { user } = await auth()
+    const { user } = await auth() || {}
     return user
   }
   catch (err) {
