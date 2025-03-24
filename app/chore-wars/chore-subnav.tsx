@@ -44,7 +44,7 @@ export default function ChoreSubNav() {
         return style
     }
     const renderedIconStyles = (item) => {
-        let itemIconStyles = {
+        const itemIconStyles = {
             current: 'text-indigo-600',
             disabled: '',
             default: 'text-gray-400 group-hover:text-indigo-600'
