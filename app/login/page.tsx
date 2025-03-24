@@ -17,7 +17,7 @@ export default async function LoginPage() {
             className="mx-auto h-10 w-auto"
           />
           <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-            Sign in for battle
+            Sign in
           </h2>
         </div>
 
