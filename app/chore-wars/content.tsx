@@ -3,25 +3,33 @@ import { useChoreContext } from './chore-context'
 import CreateChore from './create-chore-form'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
-import { dayJs } from '../lib/dayjs'
 import ChoreBadge from './chore-badge'
-import { completeChore, deleteChore } from '../lib/actions'
+import { completeChore, deleteChore } from '@/app/lib/actions'
 import { useCallback, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { ChoreStatus } from '@prisma/client'
+import Time from '@/app/lib/Time'
 
 
 export default function ChoreWarsContent() {
     const { chores, refreshChores } = useChoreContext()
 
     const [choreErrors, setChoreErrors] = useState([])
+    const [madeInitialFetch, setMadeInitialFetch] = useState(false)
 
     useEffect(() => {
-        // logic to stop loop crashing
-        if (!chores.length) {
-            refreshChores()
+        try {
+            // logic to stop loop crashing
+            if (!madeInitialFetch) {
+                refreshChores()
+                setMadeInitialFetch(true)
+            }
         }
-    }, [choreErrors, setChoreErrors, refreshChores, chores])
+        catch (err) {
+            setChoreErrors([...choreErrors, err])
+        }
+
+    }, [choreErrors, setChoreErrors, refreshChores, madeInitialFetch, setMadeInitialFetch])
 
     const handleCompleteChore = useCallback((chore) => {
         const doCompleteChore = async () => {
@@ -81,7 +89,7 @@ export default function ChoreWarsContent() {
                     return (
                         <li key={chore.id} className={clsx(
                             "flex items-center justify-between gap-x-6 py-5 px-2",
-                            styles[styleKey].wrapper
+                            styles[styleKey].wrapper,
                         )}>
                             <div className='flex-shrink'>
                                 <ChoreBadge chore={chore} />
@@ -119,8 +127,7 @@ export default function ChoreWarsContent() {
                                                             ? (
                                                                 <>
                                                                     <p className="whitespace-nowrap">
-                                                                        {/* @ts-expect-error Type error: This expression is not callable */}
-                                                                        Due on <time dateTime={chore.dueOn}>{dayJs(chore.dueOn).format(`MMM D 'YY`)}</time>
+                                                                        Due on <Time dateString={chore.dueOn} />
                                                                     </p>
                                                                     <svg viewBox="0 0 2 2" className="size-0.5 fill-current">
                                                                         <circle r={1} cx={1} cy={1} />
@@ -131,8 +138,7 @@ export default function ChoreWarsContent() {
                                                     }
 
                                                     <p className="truncate">
-                                                        {/* @ts-expect-error Type error: This expression is not callable */}
-                                                        Created by {chore?.createdBy?.name} on <time dateTime={chore.createdOn} title={chore.createdOn}>{dayJs(chore.createdOn).format(`MMM D 'YY`)}</time>
+                                                        Created by {chore?.createdBy?.name} on <Time dateString={chore.createdOn} />
                                                     </p>
                                                 </div>
                                             </>

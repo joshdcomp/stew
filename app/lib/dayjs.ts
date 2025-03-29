@@ -1,7 +1,9 @@
 import dayjs, { Dayjs } from 'dayjs'
 import utc from 'dayjs/plugin/utc'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
 
-const exportable = dayjs.extend(utc)
+dayjs.extend(localizedFormat);
+dayjs.extend(utc)
 
-export const dayJs = exportable
+export const dayJs = dayjs
 export { Dayjs }
