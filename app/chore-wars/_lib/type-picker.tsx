@@ -5,7 +5,7 @@ import { CalendarIcon, CheckIcon, SwatchIcon } from '@heroicons/react/24/outline
 import clsx from 'clsx'
 import { ChoreType } from '@prisma/client'
 import KeyDatePicker from './key-date-picker'
-import { KeyDateTypes } from '../lib/key-dates'
+import { KeyDateTypes } from '@/app/lib/key-dates'
 
 export default function TypePicker() {
     const types = [

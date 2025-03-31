@@ -1,5 +1,5 @@
 'use client'
-import createChore from '@/app/chore-wars/create-chore'
+import createChore from '@/app/chore-wars/_lib/create-chore'
 
 import RoomPicker from './room-picker'
 import TypePicker from './type-picker'
