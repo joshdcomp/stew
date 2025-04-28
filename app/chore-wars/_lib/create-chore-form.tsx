@@ -1,5 +1,5 @@
 'use client'
-import createChore from '@/app/chore-wars/create-chore'
+import createChore from '@/app/chore-wars/_lib/create-chore'
 
 import RoomPicker from './room-picker'
 import TypePicker from './type-picker'
@@ -7,19 +7,39 @@ import DueDatePicker from './due-date-picker'
 import PointsInput from './points-input'
 import SubmitButton from './submit-button'
 import { useChoreContext } from './chore-context'
+import React from 'react'
+
+// @TODO wire up skeleton state
+// https://tailwindcss.com/docs/animation#pulse
+// import { useFormState, useFormStatus } from 'react-dom'
 
 export default function CreateChore() {
 
     const { refreshChores } = useChoreContext()
 
-    const handleCreateChore = (e: FormData) => {
-        createChore(e)
-        refreshChores()
+    const formRef = React.useRef<HTMLFormElement>(null)
+
+    const handleCreateChore = (formRef: HTMLFormElement, e: FormData) => {
+        console.log({ formRef })
+        try {
+            console.log('[<CreateChore/>] Creating chore')
+            createChore(e)
+
+            console.log('[<CreateChore/>] Updating chore list')
+            refreshChores()
+
+            console.log('[<CreateChore/>] Resetting form')
+            formRef?.reset()
+        }
+        catch (err) {
+            console.log('[<CreateChore/>.handleCreateChore]', err)
+        }
     }
 
     return (
         <form
-            action={handleCreateChore}
+            ref={formRef}
+            action={handleCreateChore.bind(null, formRef)}
             className="relative block w-full mt-0"
         >
             <div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
@@ -41,7 +61,6 @@ export default function CreateChore() {
                 <textarea
                     id="description"
                     name="description"
-                    required
                     rows={2}
                     placeholder="Write a description..."
                     className="block w-full border-0 py-0 placeholder:text-gray-400 text-primary focus:ring-0 sm:text-sm/6"
@@ -65,10 +84,10 @@ export default function CreateChore() {
             <div className="absolute inset-x-px bottom-0">
                 {/* Actions: These are just examples to demonstrate the concept, replace/wire these up however makes sense for your project. */}
                 <div className="flex flex-nowrap justify-end space-x-2 px-2 py-2 sm:px-3">
-                    {/* room picker */}
+                    {/* Room */}
                     <RoomPicker />
 
-                    {/* Label */}
+                    {/* Type */}
                     <TypePicker />
 
                     {/* Due date */}

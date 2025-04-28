@@ -1,33 +1,42 @@
 'use client'
 import { useState } from 'react'
 import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
-import { CalendarIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
+import { KeyDateKeys, keyDateLabels, KeyDateTypes } from '@/app/lib/key-dates'
 
-const dueDates = [
-    { name: 'No due date', value: null },
-    { name: 'Today', value: 'today' },
-    { name: 'This battle', value: 'battle' },
-    { name: 'This month', value: 'month' },
-    { name: 'This war', value: 'war' },
-    // @todo set up custom date option
-]
+export default function KeyDatePicker({
+    icon: Icon,
+    name,
+    title,
+    label = 'Choose a date',
+    placeholder = 'Date',
+    allowEmpty = true,
+    type = KeyDateTypes.ACTUAL
+}) {
 
+    const keyDatesFormOpts = [
+        ...(allowEmpty ? [{ name: 'No due date', value: null }] : []),
+        { name: keyDateLabels[KeyDateKeys.TODAY][type], value: KeyDateKeys.TODAY },
+        { name: keyDateLabels[KeyDateKeys.BATTLE][type], value: KeyDateKeys.BATTLE },
+        { name: keyDateLabels[KeyDateKeys.MONTH][type], value: KeyDateKeys.MONTH },
+        { name: keyDateLabels[KeyDateKeys.WAR][type], value: KeyDateKeys.WAR },
+        // @todo set up custom date option
+    ]
 
-export default function DueDatePicker() {
-    const [dated, setDated] = useState(dueDates[0])
+    const [selected, setSelected] = useState(keyDatesFormOpts[0])
     return (
         <Listbox
             as="div"
-            value={dated}
-            onChange={setDated}
+            value={selected}
+            onChange={setSelected}
             className="shrink-0"
-            name="due-date"
+            name={name}
+            title={title}
         >
-            <Label className="sr-only">Add a due date</Label>
+            <Label className="sr-only">{label}</Label>
             <div className="relative">
                 <ListboxButton className="relative inline-flex items-center whitespace-nowrap rounded-full bg-gray-50 px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 sm:px-3">
-                    <CalendarIcon
+                    <Icon
                         aria-hidden="true"
                         className={clsx(
                             'size-5 shrink-0 sm:-ml-1 text-gray-500',
@@ -35,11 +44,11 @@ export default function DueDatePicker() {
                     />
                     <span
                         className={clsx(
-                            dated.value === null ? '' : 'text-gray-900',
+                            selected.value === null ? '' : 'text-gray-900',
                             'hidden truncate sm:ml-2 sm:block',
                         )}
                     >
-                        {dated.value === null ? 'Due date' : dated.name}
+                        {selected.value === null ? placeholder : selected.name}
                     </span>
                 </ListboxButton>
 
@@ -47,14 +56,14 @@ export default function DueDatePicker() {
                     transition
                     className="absolute right-0 z-10 mt-1 max-h-60 w-52 overflow-auto rounded-lg bg-white py-3 text-base shadow ring-1 ring-black/5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in sm:text-sm"
                 >
-                    {dueDates.map((dueDate) => (
+                    {keyDatesFormOpts.map((keyDate) => (
                         <ListboxOption
-                            key={dueDate.value}
-                            value={dueDate}
+                            key={keyDate.value}
+                            value={keyDate}
                             className="relative cursor-default select-none bg-white px-3 py-2 data-[focus]:bg-gray-100"
                         >
                             <div className="flex items-center">
-                                <span className="block truncate font-medium text-gray-500">{dueDate.name}</span>
+                                <span className="block truncate font-medium text-gray-500">{keyDate.name}</span>
                             </div>
                         </ListboxOption>
                     ))}

@@ -3,7 +3,7 @@
 import { auth, signIn, signOut } from '@/auth.config';
 import { prisma } from '@/prisma';
 import { AuthError } from 'next-auth';
-import { dayJs } from './dayjs';
+import { dayJs } from '@/app/lib/dayjs';
 import { ChoreStatus } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 
@@ -112,9 +112,7 @@ export async function completeChore(chore) {
     if (!!user.id && choreDBEntry.status === ChoreStatus.AVAILABLE) {
       const choreEntry = {
         completedByID: user.id,
-        // @ts-expect-error Type error: This expression is not callable
-        // dayjs being weird
-        completedOn: dayJs().utc().format(),
+        completedOn: dayJs.utc().format(),
         status: ChoreStatus.COMPLETED,
       }
       const updatedChore = await prisma.chore.update({

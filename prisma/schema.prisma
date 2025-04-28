@@ -25,8 +25,13 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  createdWars ChoreWar[]
+
   createdChores   Chore[] @relation("CreatedChores")
   completedChores Chore[] @relation("CompletedChores")
+
+  wars    UserWars[]
+  battles UsersInBattles[]
 }
 
 model Account {
@@ -142,11 +147,14 @@ model Room {
 
 model ChoreBattle {
   id          Int       @id @default(autoincrement())
+  // Chore battles are created automatically by its parent war when the war is started, so no createdBy 
   createdOn   DateTime  @default(now())
   startDate   DateTime?
   endDate     DateTime?
   title       String
   description String?
+
+  combattants UsersInBattles[]
 
   war   ChoreWar @relation("ChoreBattles", fields: [warID], references: [id])
   warID Int
@@ -154,13 +162,37 @@ model ChoreBattle {
   chores Chore[] @relation("Chores")
 }
 
+model UsersInBattles {
+  battle   ChoreBattle @relation(fields: [battleID], references: [id])
+  battleID Int
+
+  user   User   @relation(fields: [userID], references: [id])
+  userID String
+
+  @@id([battleID, userID])
+}
+
 model ChoreWar {
   id          Int       @id @default(autoincrement())
+  createdBy   User?     @relation(fields: [createdByID], references: [id])
+  createdByID String
   createdOn   DateTime  @default(now())
   startDate   DateTime?
   endDate     DateTime?
+  
   title       String
   description String?
 
+  combattants UserWars[]
   battles ChoreBattle[] @relation("ChoreBattles")
+}
+
+model UserWars {
+  war   ChoreWar @relation(fields: [warID], references: [id])
+  warID Int
+
+  user   User   @relation(fields: [userID], references: [id])
+  userID String
+
+  @@id([warID, userID])
 }
